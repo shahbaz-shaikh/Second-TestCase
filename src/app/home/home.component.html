@@ -1,0 +1,23 @@
+<section class="section is-small">
+  <div class="container">
+    <div class="columns">
+      <div class="column" *ngFor="let user of users">
+        <div class="box">
+          <div class="content">
+            <p class="has-text-centered is-size-5">
+              <strong>{{user.name}}</strong>
+            </p>
+            <ul>
+              <li><strong>ID:</strong> {{user.id}}</li>
+              <li><strong>Role:</strong> {{user.role}}</li>
+              <li><strong>Pokemon:</strong> {{user.pokemon}}</li>
+              <li><strong>Delete:</strong> 
+                <button (click)="delete(user.id)"><li class="fa fa-trash" ></li></button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
