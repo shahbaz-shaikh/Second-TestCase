@@ -1,9 +1,11 @@
 import { TestBed, async } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+// ---------------------------------------------------- //
 import { AppComponent } from './app.component';
 import { UsersService } from './service/users.service';
 import { HomeComponent } from './home/home.component';
-import { HttpClientModule } from '../../node_modules/@angular/common/http';
 import { StrengthPipe } from './strength/strength.pipe';
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({

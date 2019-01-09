@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+// --------------------------------------------------- //
 import { UsersService } from '../service/users.service';
-import { log } from 'util';
+import { Users } from '../users.model';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import { log } from 'util';
 })
 export class HomeComponent implements OnInit {
 
-  public users: any[];
+  public users: Users[];
   constructor(private service: UsersService) { }
 
   ngOnInit() {
@@ -17,14 +18,14 @@ export class HomeComponent implements OnInit {
   }
 
   public getUsers(): void {
-    this.service.getUsers().subscribe( (res) => {
-      this.users = res;
+    this.service.getUsers().subscribe((users) => {
+      this.users = users;
       console.log(this.users);
     });
   }
 
-  public delete(id: any): void {
+  public delete(id: Users): void {
     this.users = this.users.filter(u => u !== id);
-    this.service.deleteUser(id).subscribe( () => this.getUsers()); 
+    this.service.deleteUser(id).subscribe();
   }
 }

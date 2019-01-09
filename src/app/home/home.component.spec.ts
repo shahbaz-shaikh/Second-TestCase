@@ -1,8 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
+// -------------------------------------------- //
 import { HomeComponent } from './home.component';
-import { HttpClientModule } from '../../../node_modules/@angular/common/http';
 import { UsersService } from '../service/users.service';
+import { By } from '../../../node_modules/@angular/platform-browser';
+
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -14,10 +17,7 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule],
       declarations: [HomeComponent],
-      providers: [{
-        provide: UsersService,
-        useValue: mockUsersService
-      }]
+      providers: [UsersService]
     })
       .compileComponents();
   }));
@@ -30,6 +30,14 @@ describe('HomeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('shllow test', () => {
+    it('Should have the correct Users', () => {
+      fixture.componentInstance.users = [{ id: 1, name: 'Jane', role: 'Designer', pokemon: 'Blastoise'}];
+      const deA = (fixture.debugElement.query(By.css('div')));
+      expect(deA.nativeElement.querySelector('div').textContent).toContain('');
+    });
   });
 
   beforeEach(() => {
@@ -46,45 +54,43 @@ describe('HomeComponent', () => {
         role: 'Developer',
         pokemon: 'Charizard'
       }
-    ]
+    ];
 
-    mockUsersService = jasmine.createSpyObj(['getUsers', 'deleteUser'])
+    mockUsersService = jasmine.createSpyObj(['getUsers', 'deleteUser']);
 
-    component = new HomeComponent(mockUsersService)
-  })
+    component = new HomeComponent(mockUsersService);
+  });
 
-  describe('view', () => {
-    it('should display the user list', () => {
-      mockUsersService.getUsers.and.returnValue(of(USERS))
-
+  describe('UserService in HomeComponent', () => {
+    it('should set Users correctly from the UserService', () => {
+      mockUsersService.getUsers.and.returnValue(of(USERS));
       component.users = USERS;
-
-      expect(mockUsersService.getUsers).toHaveBeenCalled();
-    })
-  })
+      expect(component.users.length).toBe(2);
+    });
+  });
 
   describe('delete', () => {
 
     it('should remove the indicated user from users list', () => {
-      mockUsersService.deleteUser.and.returnValue(of(true))
-      // spyOn(mockUsersService, 'deleteUser').and.returnValue(of(true))
+      mockUsersService.deleteUser.and.returnValue(of({}));
 
       component.users = USERS;
 
       component.delete(USERS[2]);
 
       expect(component.users.length).toBe(2);
-    })
-  })
+    });
 
-  it('should call deleteUsers', () => {
-    mockUsersService.deleteUser.and.returnValue(of(true))
+    it('should call deleteUsers', () => {
+      mockUsersService.deleteUser.and.returnValue(of(true));
 
-    component.users = USERS;
+      component.users = USERS;
 
-    component.delete(USERS[2]);
+      component.delete(USERS[2]);
 
-    expect(mockUsersService.deleteUser).toHaveBeenCalled();
-  })
+     expect(mockUsersService.deleteUser).toHaveBeenCalled();
+    });
+
+  });
 
 });
